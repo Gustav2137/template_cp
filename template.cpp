@@ -191,10 +191,32 @@ public:
 };
 //
 // }}} LL_RANGE_END
+// {{{ ORDERED SET
 // ordered_set
 template <class T, class ORD = less<T>>
 using ordered_set =
     tree<T, null_type, ORD, rb_tree_tag, tree_order_statistics_node_update>;
+// }}}
+// {{{ KMP
+// kmp jesli pi[i]==patern.size() to patern wystepuje z przesunieciem i-2*pi[i]
+template <class T> void kmp(const T &word, vector<int> &pi) {
+  pi.clear();
+  pi.resize(word.size());
+  for (int i = 1; i < word.size(); i++) {
+    int j = pi[i - 1];
+    while (j > 0) {
+      if (word[j] == word[i]) {
+        pi[i] = j + 1;
+        break;
+      }
+      j = pi[j - 1];
+    }
+    if (j == 0) {
+      pi[i] = (word[0] == word[i]);
+    }
+  }
+}
+// }}}
 // TEMPLATE_END
 // ----------------------------------------------
 // }}}
